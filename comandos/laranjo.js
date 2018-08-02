@@ -3,7 +3,7 @@ const errors = require("../utils/errors.js");
 
 module.exports.run = async (bot, message, args) => {
 
-    const Canvas = require('Canvas');
+    const canvas = require('canvas');
     const snekfetch = require('snekfetch');
     const textlaranj = args.slice(0).join(" ");
     const applyText = (canvas, text) => {
