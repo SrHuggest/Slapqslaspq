@@ -16,8 +16,6 @@ module.exports.run = async (bot, message, args) => {
         .addField("💻 __Versão:__", "Cmp 1.0.0", true)
         .addField("👑 __Dono:__", "Sr.Huggest#5202", true)
         .addField("🛰️ __Ping__ :", Math.round(bot.ping), true)
-        .addField("💻 __Uso da CPU__", `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}`, true)
-        .addField("💻 __Sistema de CPU__", `${cpus}`, true)
         .addField("👥 __Membros__ :", bot.users.size, true)
         .addField("💬 __Canais__ :", bot.channels.size, true)
         .setColor("#7289DA")
