@@ -109,7 +109,7 @@ bot.on("message", message => {
   if(random == '2') return message.channel.send({embed : embed1})
     } catch (err) {
   if (!message.content.startsWith(prefix.PREFIX)) return;
-  mesechnesd('<correct:1532794709274:459873104504684564> **|** Estou carregando as informações deste comando.').then(message => {
+  message.channel.send('<correct:1532794709274:459873104504684564> **|** Estou carregando as informações deste comando.').then(message => {
      setTimeout(() => {
   message.delete()
      }, 1000)
