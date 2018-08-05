@@ -3,8 +3,8 @@ const errors = require("../utils/errors.js");
 
 module.exports.run = async (bot, message, args) => {
 
-    var cpu = require('windows-cpu')
-    let cpus = await cpu.cpuInfo();
+
+
     let bicon = bot.user.displayAvatarURL;
     let botembed = new Discord.RichEmbed()
         .setAuthor("LokisBOT", bicon)
