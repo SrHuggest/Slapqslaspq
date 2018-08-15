@@ -1,22 +1,20 @@
 {
-  "name": "lokisbot",
-  "description": "LokisBOT Cool",
+  "name": "rooti",
   "version": "1.0.0",
-  "engines": {
-    "node": "8.11.1"
+  "description": "rooti bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "author": "mrghostzou e wilson gaara",
+  "license": "ISC",
   "dependencies": {
-    "bot-utils": "^1.2.0",
     "discord.js": "^11.3.2",
-    "ffmpeg": "0.0.4",
-    "ffmpeg-binaries": "^3.2.2-3",
+    "ffmpeg-binaries": "^4.0.0",
     "fs": "0.0.1-security",
-    "moment": "^2.22.1",
-    "ms": "^2.1.1",
-    "opusscript": "^0.0.6",
+    "google-translate-api": "^2.3.0",
     "snekfetch": "^4.0.4",
-    "util": "^0.11.0",
     "yt-search": "^0.1.4",
-    "ytdl-core": "^0.20.4"
+    "ytdl-core": "^0.24.0"
   }
 }

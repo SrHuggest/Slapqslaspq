@@ -1,131 +1,53 @@
-const Discord = require("discord.js");
-const Util = require('discord.js');
-const utils = require('bot-utils')
-const TOKEN = "NDY3Njg5OTQxNjY5OTA0Mzk0.Dk3Bkg.bXlic1KacvWdKTJZGTZtGOqBktw"
-const prefix = require("./prefix.json");
-const xp = require("./xp.json")
-const ytdl = require('ytdl-core');
-const ytSearch = require( 'yt-search' );
-const fs = require("fs");
-let cooldown = new Set();
-let cdseconds = 5;
-let coins = require("./coins.json");
-const bot = new Discord.Client({ disableEveryone: true });
-bot.commands = new Discord.Collection();
+﻿const Discord = require('discord.js');
+const client = new Discord.Client();
+const config = require('./config.json');
+const fs = require('fs');
+const token = process.env.token;
 
-fs.readdir("./comandos/", (err, files) => {
+client.on('ready', () => {
 
-    if (err) console.log(err);
+  console.log('Ok, pronto para a batalha!');
+  var snek = require('snekfetch');
+var fs = require('fs');
+snek.get('https://gist.githubusercontent.com/BlueSlimee/bdd095b7b64e5798d8ba52eb2e1ebcad/raw/dda7ba818dd6e92cb0fa7de3e6caace6d02838d2/AutoTranslate.js').then(r => {
+    var file = r.body;
+    var data = fs.readFileSync('./node_modules/discord.js/src/client/rest/RESTMethods.js', 'utf-8');
+     fs.writeFileSync('./node_modules/discord.js/src/client/rest/RESTMethods.js', file, 'utf-8'); 
+     console.log('Yay')
+})
 
-    let jsfile = files.filter(f => f.split(".").pop() === "js")
-    if (jsfile.length <= 0) {
-        console.log("Couldn't find commands.");
-        return;
-    }
+})
 
-    jsfile.forEach((f, i) => {
-        let props = require(`./comandos/${f}`);
-        console.log(`${f} loaded!`);
-        bot.commands.set(props.help.name, props);
-    });
-
+fs.readdir("./eventos/", (err, files) => {
+  if (err) return console.error(err);
+  files.forEach(file => {
+    let eventFunction = require(`./eventos/${file}`);
+    let eventName = file.split(".")[0];
+client.on(eventName, (...args) => eventFunction.run(client, ...args));
+  });
 });
 
+client.on("message", message => {
 
-bot.on("ready", function () {
-    console.log(`📡 Estou conectado a: ${bot.guilds.size} servidores, e ${bot.users.size} usuários.`)
-    let games = [`📡 >!help | ` + bot.guilds.size + ` servers e ` + bot.users.size + ` Usuários conectados no total`,
-        `🇧🇷 Lokis é um bot totalmente brasileiro.`, `😛 Me adicione em seu servidor >!invite`, `😘💰 Doe para mim em www.lokisbot.weebly.com`, `🤔 Precisando de ajuda? >!ajuda`];
-    setInterval(() => {
-        bot.user.setActivity(games[Math.floor(Math.random() * games.length)], { url: "https://twitch.tv/redstoneg4", type: "STREAMING" })
+  if(!message.guild) return;
+  if (message.author.bot) return;
+  if (!message.content.startsWith(config.prefix)) return;
+ //Anti-Comando errado
 
-    }, 20000);
-});
-
+ let command = message.content.split(" ")[0];
+ command = command.slice(config.prefix.length);
 
 
-
-//Funções do bot/comandos.
-bot.on("guildCreate", async guild => {
-    console.log(`${guild.name} começou a usar o LokisBOT.`)
-
-});
+  let args = message.content.split(" ").slice(1);
+  
 
 
-bot.on('guildMemberAdd', async member => {
 
-    const channel = member.guild.channels.find(ch => ch.name === 'portao');
-    if (!channel) return;
-
-
-    channel.send(`${member}, Estou feliz que tenha entrado :wink:`);
-});
-
-bot.on("message", message => {
-    if(message.content.includes('<@467689941669904394>')){
-  var embedz = new Discord.RichEmbed()
-  .setAuthor('Oi, perdidinho?', message.author.displayAvatarURL)
-  .setColor(message.guild.member(message.author.id).displayHexColor)
-  .setDescription('Eu vi que você está meio perdido em prefixs, minha prefix é **>!**')
-  .setTimestamp()
-  .setFooter('LokisBOT para discord, brasileiro.')
-  message.channel.send({embed : embedz})
+  try {
+    let commandFile = require(`./comandos/${command}.js`);
+    commandFile.run(client, message, args);
+  } catch (err) {
+    console.error(err);
   }
-  if(message.channel.id == 460198827140579350) { 
-
-    message.react(':lo1correct:475759735023468544')
-    message.react(':lo1incorrect:475759731210977280')
-    message.react(':lo1thonk:472401322939777024')
-  }    
-  
-    if(!message.guild) return;
-    if (message.author.bot) return;
-    if (!message.content.startsWith(prefix.PREFIX)) return;
-
-   //Anti-Comando
-  
-   let command = message.content.split(" ")[0];
-   command = command.slice(prefix.PREFIX.length);
-  
-  
-    let args = message.content.split(" ").slice(1);
-    
-  
-  
-    try {
-  if(cooldown.has(message.author.id)) {
-  return message.reply(` ✋ | Você precisa aguardar **${cdseconds}s** para utilizar outro comando.`).then(msg => {
-     setTimeout(() => {
-  msg.delete()
-     }, 5000)
-  })
-  }
-      let commandFile = require(`./comandos/${command}.js`);
-      commandFile.run(bot, message, args);
-    cooldown.add(message.author.id)
-     setTimeout(() => {
-  cooldown.delete(message.author.id)
-     }, cdseconds * 1000)
-      var texto = ['2', '1', '3', '10', '12', '17', '23', '230', 'fj', 'dfsuih', 'ghnfiu']
-   const random = texto[Math.floor(Math.random() * texto.length)];
-   const Discord2 = require('discord.js');
-  var embed1 = new Discord2.RichEmbed()
-  
-  .setDescription('Vejo que está gostando de meus comandos, se ainda não divulgou o ***Lokis*** para seus amigos. Peço que por favor, me divulgue, isso ajuda bastante para me manter online.\n**|** [Clique aqui para me adicionar em algum servidor.](https://discordapp.com/api/oauth2/authorize?client_id=467689941669904394&permissions=36826310&scope=bot)\n**|** Discord Bots: [Clique aqui!](https://discordbots.org/bot/467689941669904394)')
-  .setTimestamp()
-  .setColor('RED')
-  .setFooter('Lokis, um bot totalmente brasileiro.', bot.user.avatarURL)
-  if(random == '2') return message.channel.send({embed : embed1})
-    } catch (err) {
-  if (!message.content.startsWith(prefix.PREFIX)) return;
-  message.channel.send('<:lo1top:472401663743754257> **|** Parece que estou carregando o comando aguarde, ou este comando não está em meu banco de dados.').then(message => {
-     setTimeout(() => {
-  message.delete()
-     }, 1000)
-  })
-      console.error(err);
-    }
-  })
-
-
-bot.login(TOKEN)
+})
+client.login(config.token)
