@@ -1,0 +1,5 @@
+﻿exports.run = async(client, message, args) => {
+   
+    client.user.setPresence({ game: { name: "Você | Rooti, um bot para o Discord. Brasileiro", type:  3} });
+
+    }
